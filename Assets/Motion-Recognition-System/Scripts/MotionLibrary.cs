@@ -6,7 +6,10 @@ public class MotionLibrary
 {
     private List<Motion> motions;
     private static MotionLibrary motionLibrary;
-    private List<Vector3> potentialNewMotionTransformedPoints = new List<Vector3>(){};
+    private List<Vector3> potentialNewMotionTransformedPoints = new List<Vector3>() { };
+
+    string pathLoadMotions = Application.dataPath + "/Motion-Recognition-System/Motions/";
+
     private MotionLibrary()
     {
         LoadMotions();
@@ -27,7 +30,6 @@ public class MotionLibrary
     public void LoadMotions()
     {
         this.motions = new List<Motion>();
-        string pathLoadMotions = Application.dataPath + "/MotionRecognition/Motions/";
 
         foreach (string file in Directory.GetFiles(pathLoadMotions))
         {
@@ -49,17 +51,19 @@ public class MotionLibrary
         Debug.Log(newMotion.name + " recorded");
         string motion = JsonUtility.ToJson(newMotion);
         System.IO.File.WriteAllText(
-            Application.dataPath + "/MotionRecognition/Motions/" +
+            pathLoadMotions +
             newMotion.name + ".json", motion
         );
         LoadMotions();
     }
 
-    public void setTransformedPoints(List<Vector3> transformedPoints = null){
+    public void setTransformedPoints(List<Vector3> transformedPoints = null)
+    {
         potentialNewMotionTransformedPoints = transformedPoints;
     }
 
-    public List<Vector3> getTransformedPoints(){
+    public List<Vector3> getTransformedPoints()
+    {
         return potentialNewMotionTransformedPoints;
     }
 
